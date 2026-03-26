@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { supabase, type Hero as HeroData } from '../lib/supabase';
+import EstimateForm from '../components/EstimateForm';
 
 export default function Hero() {
   const [heroData, setHeroData] = useState<HeroData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     async function fetchHero() {
@@ -67,10 +69,18 @@ export default function Hero() {
         <p className="text-white/90 text-sm md:text-base font-light tracking-[0.25em] mb-16 uppercase animate-fade-in-up" style={{ animationDelay: '0.7s', opacity: 0 }}>
           {displayData.subheading}
         </p>
-        <button className="px-12 py-4 bg-white/10 backdrop-blur-sm border border-white/30 text-white text-xs font-medium tracking-[0.2em] hover:bg-white hover:text-[#273246] transition-all duration-500 uppercase animate-fade-in-up" style={{ animationDelay: '0.9s', opacity: 0 }}>
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="px-12 py-4 bg-white/10 backdrop-blur-sm border border-white/30 text-white text-xs font-medium tracking-[0.2em] hover:bg-white hover:text-[#273246] transition-all duration-500 uppercase animate-fade-in-up"
+          style={{ animationDelay: '0.9s', opacity: 0 }}
+        >
           {displayData.button_text}
         </button>
       </div>
+        <EstimateForm
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
     </section>
   );
 }
